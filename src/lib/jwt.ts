@@ -12,15 +12,16 @@ export const signJwtAccessToken = (
   payload: JwtPayload,
   options: SignOption = DEFAULT_SIGN_OPTION
 ) => {
-  const secretKey = process.env.NEXTAUTH_SECRET as string
+  //   const secretKey = process.env.NEXTAUTH_SECRET as string
+  const secretKey = 'secret'
   const token = jwt.sign(payload, secretKey, options)
   return token
 }
 
 export const verifyJwt = (token: string) => {
   try {
-    console.log('token', process.env.NEXTAUTH_SECRET)
-    const secretKey = process.env.NEXTAUTH_SECRET as string
+    // const secretKey = process.env.NEXTAUTH_SECRET as string
+    const secretKey = 'secret'
     const payload = jwt.verify(token, secretKey)
     return payload
   } catch (error) {
