@@ -10,6 +10,6 @@ export const GET = async (req: NextRequest) => {
   if (verify) {
     return NextResponse.json({ status: true })
   } else {
-    return NextResponse.json({ status: false })
+    return NextResponse.json({ status: false }, { status: 401 })
   }
 }

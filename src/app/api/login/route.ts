@@ -22,7 +22,7 @@ export const GET = async (req: NextRequest) => {
       type: 'access'
     },
     {
-      expiresIn: '10s'
+      expiresIn: '5s'
     }
   )
 
