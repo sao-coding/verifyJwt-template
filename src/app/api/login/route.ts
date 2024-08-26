@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { signJwtAccessToken } from '@/lib/jwt'
@@ -6,16 +5,16 @@ import { signJwtAccessToken } from '@/lib/jwt'
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams
 
-  const refreshToken = signJwtAccessToken({
-    type: 'refresh'
-  })
+  const refreshToken = signJwtAccessToken(
+    {
+      type: 'refresh'
+    },
+    {
+      expiresIn: '7d'
+    }
+  )
 
   // set-cookie: refreshToken
-  const cookie = cookies().set('refreshToken', refreshToken, {
-    httpOnly: true,
-    // secure: true,
-    sameSite: 'strict'
-  })
 
   const accessToken = signJwtAccessToken(
     {
@@ -26,5 +25,12 @@ export const GET = async (req: NextRequest) => {
     }
   )
 
-  return NextResponse.json({ accessToken }, { headers: { 'set-cookie': cookie.toString() } })
+  return NextResponse.json(
+    { accessToken },
+    {
+      headers: {
+        'set-cookie': `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Strict; Max-Age=604800`
+      }
+    }
+  )
 }
